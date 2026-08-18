@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * K3Blocks global base — design tokens per design.md §2/§3.
+ * Fonts: Geist + Geist Mono via @fontsource (imported in main.tsx).
+ * Fallback stack: system-ui / ui-monospace if font files fail to load.
+ * Theme: CSS-variable swap on <html data-theme="dark|light">. Default: dark.
+ */
+
+@layer base {
+  :root,
+  html[data-theme="dark"] {
+    --bg: #111111;
+    --surface-1: #161616;
+    --surface-2: #1c1c1c;
+    --surface-inset: #0a0a0a;
+    --border: #2a2a2a;
+    --text-1: #ededed;
+    --text-2: #aeaeae;
+    --text-3: #8f8f8f;
+    --text-4: #636363;
+    --accent: #388aff;
+    --accent-hover: #5c9fff;
+    --accent-soft: rgba(56, 138, 255, 0.12);
+    --selection: rgba(56, 138, 255, 0.28);
+    --hover-overlay: rgba(255, 255, 255, 0.05);
+    --focus-ring: rgba(56, 138, 255, 0.25);
+    --kbd-shadow: rgba(0, 0, 0, 0.4);
+    --popover-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --code-green: #7ee787;
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    --bg: #ffffff;
+    --surface-1: #fafafa;
+    --surface-2: #f2f2f2;
+    --surface-inset: #f5f5f5;
+    --border: #dbdbdb;
+    --text-1: #1a1a1a;
+    --text-2: #333333;
+    --text-3: #555555;
+    --text-4: #8f8f8f;
+    --accent: #388aff;
+    --accent-hover: #5c9fff;
+    --accent-soft: rgba(56, 138, 255, 0.12);
+    --selection: rgba(56, 138, 255, 0.28);
+    --hover-overlay: rgba(0, 0, 0, 0.04);
+    --focus-ring: rgba(56, 138, 255, 0.25);
+    --kbd-shadow: rgba(0, 0, 0, 0.15);
+    --popover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --code-green: #1a7f37;
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-2);
+    font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--selection);
+  }
+
+  /* Focus ring: keyboard only (design.md §5) */
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 1px solid var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar (site-wide, design.md §6.4) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #3a3a3a;
+  }
+  html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background-color: #c4c4c4;
+  }
+
+  /* kbd keycap primitive (design.md §6.4) */
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 0 var(--kbd-shadow);
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1;
+    color: var(--text-2);
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+
+  code,
+  pre {
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--text-1);
+  }
+
+  /* Motion subtraction: respect reduced motion everywhere */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+    }
+  }
+}

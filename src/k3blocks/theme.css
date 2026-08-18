@@ -1,0 +1,1422 @@
+/**
+ * K3Blocks — 主题与设计令牌。
+ * 变量名与宿主页面（design.md §2）一致：--bg/--surface-*/--border/--text-*/--accent…
+ * 未设置 data-theme 时继承宿主页面；所有用法带暗色兜底值。
+ */
+
+.k3-editor[data-theme="dark"] {
+  --bg: #111111;
+  --surface-1: #161616;
+  --surface-2: #1c1c1c;
+  --surface-inset: #0a0a0a;
+  --border: #2a2a2a;
+  --text-1: #ededed;
+  --text-2: #aeaeae;
+  --text-3: #8f8f8f;
+  --text-4: #636363;
+  --accent: #388aff;
+  --accent-hover: #5c9fff;
+  --accent-soft: rgba(56, 138, 255, 0.12);
+  --selection: rgba(56, 138, 255, 0.28);
+  --hover-overlay: rgba(255, 255, 255, 0.05);
+  /* codeBlock 语法高亮 token（灰阶 + 单色 accent 纪律下的降饱和配色，可在 editor 根覆盖） */
+  --k3-code-keyword: #6ea8ff;
+  --k3-code-string: #8fce9f;
+  --k3-code-comment: var(--text-4);
+  --k3-code-function: #ac9be8;
+  --k3-code-number: #79c0ff;
+  --k3-code-operator: var(--text-2);
+  --k3-code-punctuation: var(--text-3);
+}
+
+.k3-editor[data-theme="light"] {
+  --bg: #ffffff;
+  --surface-1: #fafafa;
+  --surface-2: #f2f2f2;
+  --surface-inset: #f5f5f5;
+  --border: #dbdbdb;
+  --text-1: #1a1a1a;
+  --text-2: #555555;
+  --text-3: #8f8f8f;
+  --text-4: #aeaeae;
+  --accent: #388aff;
+  --accent-hover: #5c9fff;
+  --accent-soft: rgba(56, 138, 255, 0.12);
+  --selection: rgba(56, 138, 255, 0.28);
+  --hover-overlay: rgba(0, 0, 0, 0.04);
+  /* codeBlock 语法高亮 token（亮色套，同暗色的归并规则） */
+  --k3-code-keyword: #1a63d6;
+  --k3-code-string: #2d7d46;
+  --k3-code-comment: var(--text-4);
+  --k3-code-function: #7161c4;
+  --k3-code-number: #0550ae;
+  --k3-code-operator: var(--text-2);
+  --k3-code-punctuation: var(--text-3);
+}
+
+.k3-editor {
+  position: relative;
+  color: var(--text-1, #ededed);
+  font-family: var(--font-sans, "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.k3-editor ::selection {
+  background: var(--selection, rgba(56, 138, 255, 0.28));
+}
+
+.k3-blocks {
+  padding: 4px 0;
+}
+
+/* ---------------------------------- 块行 ---------------------------------- */
+
+.k3-block-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin: 4px 0 0;
+}
+
+.k3-block-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.k3-block-children {
+  padding-left: 24px;
+}
+
+.k3-block-row.k3-dragging {
+  opacity: 0.4;
+}
+
+/* --------------------------------- 侧边菜单 -------------------------------- */
+
+.k3-side-menu {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 52px;
+  padding: 2px 4px 0 0;
+  opacity: 0;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.k3-side-menu.k3-visible {
+  opacity: 1;
+}
+
+.k3-side-menu-spacer {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.k3-side-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-side-btn:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+.k3-grip {
+  cursor: grab;
+}
+
+.k3-grip-wrap {
+  position: relative;
+}
+
+.k3-grip-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 40;
+  min-width: 176px;
+  padding: 4px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: top left;
+}
+
+/* ------------------------------- 菜单通用条目 ------------------------------- */
+
+.k3-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2, #aeaeae);
+  font-size: 13px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-menu-item:hover,
+.k3-menu-item.k3-on {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+.k3-menu-item kbd {
+  margin-left: auto;
+}
+
+.k3-menu-item.k3-menu-sub {
+  padding-left: 24px;
+}
+
+.k3-menu-sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--border, #2a2a2a);
+}
+
+.k3-menu-arrow {
+  width: 14px;
+  text-align: center;
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-menu-caret {
+  margin-left: auto;
+  color: var(--text-3, #8f8f8f);
+}
+
+/* -------------------------------- 可编辑文本 -------------------------------- */
+
+.k3-editable {
+  outline: none;
+  padding: 2px 2px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  caret-color: var(--accent, #388aff);
+}
+
+.k3-editable:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-3, #8f8f8f);
+  pointer-events: none;
+}
+
+.k3-editable:empty:not([data-placeholder])::before,
+.k3-editable:empty[data-placeholder=""]::before {
+  content: none;
+}
+
+.k3-editable a {
+  color: var(--accent, #388aff);
+  text-decoration: none;
+}
+
+.k3-editable a:hover {
+  text-decoration: underline;
+}
+
+.k3-editable code {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace);
+  font-size: 0.85em;
+  padding: 1px 4px;
+  border-radius: 6px;
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  border: 1px solid var(--border, #2a2a2a);
+}
+
+/* mention 原子 chip：accent-soft 底、accent 字、圆角 6px、前导 @ */
+.k3-editable .k3-mention {
+  display: inline;
+  padding: 1px 4px;
+  border-radius: 6px;
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  color: var(--accent, #388aff);
+  font-weight: 500;
+  white-space: pre-wrap;
+  cursor: default;
+}
+
+.k3-paragraph {
+  font-size: 16px;
+}
+
+.k3-heading {
+  font-weight: 600;
+  color: var(--text-1, #ededed);
+  padding-top: 12px;
+}
+
+.k3-h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.k3-h2 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.k3-h3 {
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.k3-quote {
+  border-left: 2px solid var(--accent, #388aff);
+  padding-left: 12px;
+  color: var(--text-2, #aeaeae);
+}
+
+/* ---------------------------------- 列表 ---------------------------------- */
+
+.k3-list-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.k3-marker {
+  flex: none;
+  width: 24px;
+  padding-top: 2px;
+  text-align: center;
+  color: var(--text-2, #aeaeae);
+  user-select: none;
+}
+
+.k3-bullet {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.k3-number {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.k3-list-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.k3-checkbox {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin: 6px 8px 0 4px;
+  padding: 0;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-checkbox:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+}
+
+.k3-check-item.k3-checked .k3-checkbox {
+  background: var(--accent, #388aff);
+  border-color: var(--accent, #388aff);
+}
+
+.k3-check-item.k3-checked .k3-list-content {
+  opacity: 0.5;
+  text-decoration: line-through;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------- 代码块 --------------------------------- */
+
+.k3-codeblock {
+  position: relative;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-inset, #0a0a0a);
+}
+
+.k3-codeblock-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 6px 8px 0;
+}
+
+.k3-codeblock-lang {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-codeblock-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-codeblock:hover .k3-codeblock-copy {
+  opacity: 1;
+}
+
+.k3-codeblock-copy:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+.k3-codeblock-body {
+  padding: 8px 12px 12px;
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.k3-codeblock-body code {
+  /* 代码块内不再叠加行内 code 样式 */
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: inherit;
+}
+
+/* 语言选择（替换只读语言标签，外观保持一致） */
+.k3-codeblock-lang-select {
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.k3-codeblock-lang-select:hover,
+.k3-codeblock-lang-select:focus-visible {
+  color: var(--text-2, #aeaeae);
+}
+
+/* ------------------------- 代码块语法高亮（overlay） ------------------------- */
+
+.k3-codeblock-code {
+  position: relative;
+}
+
+/* 底层高亮层：与上层 contenteditable 共用 .k3-codeblock-body 的字体/字号/行高/padding */
+pre.k3-codeblock-highlight {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--text-1, #ededed);
+}
+
+/* 高亮生效时上层只负责光标与选区：文字透明，caret/selection 用 accent */
+.k3-codeblock-hl .k3-editable.k3-codeblock-body {
+  color: transparent;
+  caret-color: var(--accent, #388aff);
+}
+
+.k3-codeblock-hl .k3-editable.k3-codeblock-body ::selection {
+  background: var(--selection, rgba(56, 138, 255, 0.28));
+}
+
+/* prism token → 主题变量（property/tag/attr-name/attr-value/regex/important 归并到基础变量） */
+.k3-codeblock-highlight .token.comment,
+.k3-codeblock-highlight .token.prolog,
+.k3-codeblock-highlight .token.doctype,
+.k3-codeblock-highlight .token.cdata {
+  color: var(--k3-code-comment, var(--text-4, #636363));
+}
+
+.k3-codeblock-highlight .token.keyword,
+.k3-codeblock-highlight .token.important,
+.k3-codeblock-highlight .token.tag,
+.k3-codeblock-highlight .token.builtin,
+.k3-codeblock-highlight .token.atrule {
+  color: var(--k3-code-keyword, #388aff);
+}
+
+.k3-codeblock-highlight .token.string,
+.k3-codeblock-highlight .token.char,
+.k3-codeblock-highlight .token.attr-value,
+.k3-codeblock-highlight .token.regex {
+  color: var(--k3-code-string, #7ee787);
+}
+
+.k3-codeblock-highlight .token.function,
+.k3-codeblock-highlight .token.selector,
+.k3-codeblock-highlight .token.class-name {
+  color: var(--k3-code-function, #d2a8ff);
+}
+
+.k3-codeblock-highlight .token.number,
+.k3-codeblock-highlight .token.boolean,
+.k3-codeblock-highlight .token.constant,
+.k3-codeblock-highlight .token.symbol,
+.k3-codeblock-highlight .token.property,
+.k3-codeblock-highlight .token.attr-name,
+.k3-codeblock-highlight .token.variable {
+  color: var(--k3-code-number, #79c0ff);
+}
+
+.k3-codeblock-highlight .token.operator,
+.k3-codeblock-highlight .token.entity,
+.k3-codeblock-highlight .token.url {
+  color: var(--k3-code-operator, var(--text-2, #aeaeae));
+  background: none;
+}
+
+.k3-codeblock-highlight .token.punctuation {
+  color: var(--k3-code-punctuation, var(--text-3, #8f8f8f));
+}
+
+/* --------------------------------- 分割线 --------------------------------- */
+
+.k3-divider-wrap {
+  padding: 12px 2px;
+  cursor: default;
+  border-radius: 4px;
+}
+
+.k3-divider {
+  height: 1px;
+  background: var(--border, #2a2a2a);
+}
+
+.k3-divider-selected {
+  outline: 1px solid var(--accent, #388aff);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------- 图片 ---------------------------------- */
+
+.k3-image-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 120px;
+  border: 1px dashed var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-inset, #0a0a0a);
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-image-empty-text {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+}
+
+.k3-image-url {
+  width: 240px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-1, #161616);
+  color: var(--text-1, #ededed);
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  outline: none;
+}
+
+.k3-image-url:focus-visible {
+  outline: 1px solid var(--accent, #388aff);
+  box-shadow: 0 0 0 3px rgba(56, 138, 255, 0.25);
+}
+
+.k3-image {
+  margin: 0;
+}
+
+.k3-image img {
+  display: block;
+  max-width: 100%;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+}
+
+.k3-image-caption,
+.k3-image-caption-static {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  font-size: 13px;
+  font-family: inherit;
+  text-align: center;
+  outline: none;
+}
+
+.k3-image-caption::placeholder {
+  color: var(--text-4, #636363);
+}
+
+/* -------------------------------- 格式化工具栏 ------------------------------- */
+
+.k3-toolbar {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: bottom center;
+}
+
+.k3-tb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2, #aeaeae);
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-tb-btn:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+.k3-tb-btn.k3-on {
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  color: var(--accent, #388aff);
+}
+
+.k3-tb-sep {
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background: var(--border, #2a2a2a);
+}
+
+.k3-tb-link-input {
+  width: 220px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-inset, #0a0a0a);
+  color: var(--text-1, #ededed);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+/* 颜色下拉（文字颜色 / 高亮） */
+.k3-tb-color-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.k3-tb-colors {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 51;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: top right;
+}
+
+.k3-tb-color {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-1, #161616);
+  color: var(--accent, #388aff);
+  cursor: pointer;
+  transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-tb-color:hover {
+  border-color: var(--text-4, #636363);
+}
+
+.k3-tb-color.k3-on {
+  border-color: var(--accent, #388aff);
+}
+
+.k3-tb-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border, #2a2a2a);
+  pointer-events: none;
+}
+
+.k3-tb-color.k3-on .k3-tb-swatch {
+  display: none;
+}
+
+/* --------------------------------- 斜杠菜单 -------------------------------- */
+
+.k3-slash-menu {
+  position: fixed;
+  z-index: 50;
+  width: 320px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+.k3-slash-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.k3-slash-group {
+  padding: 8px 8px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-slash-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2, #aeaeae);
+  font-size: 14px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-slash-item.k3-active {
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  color: var(--text-1, #ededed);
+}
+
+.k3-slash-item.k3-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent, #388aff);
+}
+
+.k3-slash-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-1, #161616);
+  color: var(--text-2, #aeaeae);
+}
+
+.k3-slash-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.k3-slash-hint {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-slash-empty {
+  padding: 12px 8px;
+  font-size: 13px;
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-slash-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--border, #2a2a2a);
+  font-size: 12px;
+  color: var(--text-3, #8f8f8f);
+}
+
+/* ---------------------------------- kbd ---------------------------------- */
+
+.k3-editor kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-2, #1c1c1c);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 11px;
+  color: var(--text-3, #8f8f8f);
+}
+
+/* -------------------------------- 拖拽指示线 -------------------------------- */
+
+.k3-drop-indicator {
+  position: absolute;
+  left: 52px;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent, #388aff);
+  pointer-events: none;
+  z-index: 30;
+}
+
+.k3-drop-before {
+  top: -3px;
+}
+
+.k3-drop-after {
+  bottom: -3px;
+}
+
+/* --------------------------------- 弹出动画 --------------------------------- */
+
+.k3-pop {
+  animation: k3-pop 200ms cubic-bezier(0, 1, 0.2, 1.1);
+}
+
+@keyframes k3-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ------------------------------- 自定义滚动条 ------------------------------- */
+
+.k3-slash-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.k3-slash-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.k3-slash-list::-webkit-scrollbar-thumb {
+  background: var(--border, #2a2a2a);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.k3-slash-list::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* ---------------------------------- 分栏 ---------------------------------- */
+
+/* columnList：grid 均分 N 栏（--k3-cols 由视图按 column 子块数注入），栏间距 24px */
+.k3-columns {
+  display: grid;
+  grid-template-columns: repeat(var(--k3-cols, 2), minmax(0, 1fr));
+  gap: 0 24px;
+  margin: 0;
+}
+
+/* 栏间 1px 发丝分隔线（gap 中央） */
+.k3-columns > .k3-block-row + .k3-block-row {
+  position: relative;
+}
+
+.k3-columns > .k3-block-row + .k3-block-row::before {
+  content: "";
+  position: absolute;
+  left: -12.5px;
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  background: var(--border, #2a2a2a);
+}
+
+/* column：栏内块垂直堆叠，无额外缩进；隐藏栏与栏内块的 gutter 侧菜单占位 */
+.k3-column-blocks {
+  padding-left: 0;
+}
+
+.k3-columns .k3-side-menu {
+  display: none;
+}
+
+/* 栏内块的悬停底色用整行高亮替代 gutter */
+.k3-columns .k3-block-row {
+  border-radius: 4px;
+}
+
+.k3-columns .k3-block-row:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+}
+
+/* 窄屏（<768px）退化为单列堆叠，去掉分隔线 */
+@media (max-width: 767px) {
+  .k3-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .k3-columns > .k3-block-row + .k3-block-row::before {
+    display: none;
+  }
+}
+
+/* ------------------------------ 降低动效偏好 ------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .k3-editor .k3-pop {
+    animation: none;
+  }
+
+  .k3-editor .k3-side-menu,
+  .k3-editor .k3-side-btn,
+  .k3-editor .k3-tb-btn,
+  .k3-editor .k3-menu-item,
+  .k3-editor .k3-slash-item,
+  .k3-editor .k3-checkbox,
+  .k3-editor .k3-codeblock-copy {
+    transition-duration: 1ms;
+  }
+}
+
+/* -------------------------------- 通用 mono 小标 ------------------------------- */
+
+.k3-block-badge {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 6px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-2, #1c1c1c);
+  color: var(--text-3, #8f8f8f);
+  user-select: none;
+}
+
+/* ---------------------------------- 表格 ---------------------------------- */
+
+.k3-table-wrap {
+  position: relative;
+}
+
+.k3-table-toolbar {
+  position: absolute;
+  top: -32px;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+  padding: 0 4px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.k3-table-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-table-tool:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+.k3-table-tool-tag {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+}
+
+.k3-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.k3-table th,
+.k3-table td {
+  border: 1px solid var(--border, #2a2a2a);
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.k3-table thead th {
+  background: var(--surface-1, #161616);
+  font-weight: 600;
+}
+
+.k3-table tbody tr {
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-table tbody tr:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+}
+
+.k3-table-cell {
+  min-height: 24px;
+  padding: 4px 8px;
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+  caret-color: var(--accent, #388aff);
+}
+
+.k3-table-cell:focus {
+  box-shadow: inset 0 0 0 1px var(--accent, #388aff);
+}
+
+/* ---------------------------------- 数学公式 --------------------------------- */
+
+.k3-math {
+  position: relative;
+  padding: 12px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-1, #161616);
+  overflow-x: auto;
+}
+
+.k3-math > .k3-block-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.k3-math-render {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.k3-math-render .katex {
+  font-size: 1.1em;
+  color: var(--text-1, #ededed);
+}
+
+.k3-math-input,
+.k3-diagram-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-inset, #0a0a0a);
+  color: var(--text-1, #ededed);
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 13px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+}
+
+.k3-math-input:focus-visible,
+.k3-diagram-input:focus-visible {
+  outline: 1px solid var(--accent, #388aff);
+  box-shadow: 0 0 0 3px rgba(56, 138, 255, 0.25);
+}
+
+.k3-math-error-badge {
+  position: absolute;
+  top: 8px;
+  right: 56px;
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 92, 92, 0.4);
+  color: #ff5c5c;
+  user-select: none;
+}
+
+.k3-math-source {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--surface-inset, #0a0a0a);
+  color: var(--text-3, #8f8f8f);
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------------------------------- 嵌入 ---------------------------------- */
+
+.k3-embed-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 120px;
+  border: 1px dashed var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-inset, #0a0a0a);
+  color: var(--text-3, #8f8f8f);
+}
+
+.k3-embed-empty-text {
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+}
+
+.k3-embed-url {
+  width: 320px;
+  max-width: 70%;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-1, #161616);
+  color: var(--text-1, #ededed);
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  outline: none;
+}
+
+.k3-embed-url:focus-visible {
+  outline: 1px solid var(--accent, #388aff);
+  box-shadow: 0 0 0 3px rgba(56, 138, 255, 0.25);
+}
+
+.k3-embed-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-inset, #0a0a0a);
+}
+
+.k3-embed-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.k3-embed-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.k3-embed-edit,
+.k3-diagram-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.k3-embed-edit:hover,
+.k3-diagram-edit:hover {
+  background: var(--hover-overlay, rgba(255, 255, 255, 0.05));
+  color: var(--text-1, #ededed);
+}
+
+/* ---------------------------------- 图表 ---------------------------------- */
+
+.k3-diagram {
+  position: relative;
+  padding: 12px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  background: var(--surface-1, #161616);
+}
+
+.k3-diagram-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.k3-diagram-render {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.k3-diagram-render svg {
+  max-width: 100%;
+}
+
+.k3-diagram-error {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 92, 92, 0.4);
+  border-radius: 6px;
+  background: var(--surface-inset, #0a0a0a);
+  color: #ff5c5c;
+  font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.k3-diagram-loading {
+  min-height: 48px;
+}
+
+/* --------------------------------- mention 菜单 -------------------------------- */
+
+.k3-mention-menu {
+  position: fixed;
+  z-index: 50;
+  width: 260px;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+.k3-mention-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  color: var(--accent, #388aff);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ---------------------------------- PDF 块 ---------------------------------- */
+
+.k3-pdf-frame {
+  position: relative;
+  height: 560px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-inset, #0a0a0a);
+}
+
+.k3-pdf-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 右上角浮条：mono "PDF" 标签 + 小按钮 */
+.k3-pdf-bar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 4px;
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  background: var(--surface-2, #1c1c1c);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.k3-pdf-bar .k3-embed-edit {
+  height: 22px;
+  padding: 0 6px;
+}
+
+/* --------------------------------- emoji 网格菜单 -------------------------------- */
+
+.k3-emoji-menu {
+  position: fixed;
+  z-index: 50;
+  background: var(--surface-2, #1c1c1c);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform-origin: top left;
+  overflow: hidden;
+  padding: 6px;
+}
+
+.k3-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--k3-emoji-cols, 8), 28px);
+  gap: 2px;
+}
+
+.k3-emoji-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.k3-emoji-item:hover,
+.k3-emoji-item.k3-active {
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+}
+
+/* --------------------------------- 「选择文件」按钮 -------------------------------- */
+
+.k3-filepick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3, #8f8f8f);
+  cursor: pointer;
+}
+
+.k3-filepick:hover {
+  background: var(--accent-soft, rgba(56, 138, 255, 0.12));
+  color: var(--text-1, #ededed);
+}
+
+.k3-filepick:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.k3-spin {
+  animation: k3-spin 0.9s linear infinite;
+}
+
+@keyframes k3-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
