@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useParams } from "react-router";
+import { Analytics } from "@vercel/analytics/react";
 import Layout from "@/components/Layout";
 import Placeholder from "@/pages/Placeholder";
 import Home from "@/pages/Home";
@@ -74,6 +75,7 @@ function BlockSlugRedirect() {
 export default function App() {
   return (
     <Layout>
+      <Analytics />
       <Routes>
         <Route path="/" element={<Home />} />
 
