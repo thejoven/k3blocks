@@ -9,7 +9,7 @@ import { CardStrip, DocTable, H2, InlineCode, MonoCell, P } from "@/components/d
 import { downloadBlob } from "@/k3blocks";
 import ExportDemo, { ActionButton, FeedbackChip, useFeedback } from "./shared";
 
-const API_CODE = `import { blocksToHTML, downloadBlob } from "@k3/blocks";
+const API_CODE = `import { blocksToHTML, downloadBlob } from "@thejoven_com/k3blocks";
 
 // editor 实例方法（读当前文档）或纯函数（任意 Block[]）均可
 const html = editor.blocksToHTML();

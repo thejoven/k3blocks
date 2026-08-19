@@ -11,7 +11,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 export default function App() {
   // 数据源：可编辑

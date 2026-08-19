@@ -18,7 +18,7 @@ import type { Block, K3Editor } from "@/k3blocks";
 
 /* ------------------------------- live demo ------------------------------- */
 
-const SNIPPET = `import { useK3Editor, K3EditorView } from "@k3/blocks";
+const SNIPPET = `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 export default function App() {
   const editor = useK3Editor();

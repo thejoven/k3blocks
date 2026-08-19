@@ -17,10 +17,10 @@ import { useK3Editor, K3EditorView } from "@/k3blocks";
 import type { Block } from "@/k3blocks";
 
 const PM_COMMANDS = {
-  npm: "npm install @k3/blocks",
-  pnpm: "pnpm add @k3/blocks",
-  yarn: "yarn add @k3/blocks",
-  bun: "bun add @k3/blocks",
+  npm: "npm install @thejoven_com/k3blocks",
+  pnpm: "pnpm add @thejoven_com/k3blocks",
+  yarn: "yarn add @thejoven_com/k3blocks",
+  bun: "bun add @thejoven_com/k3blocks",
 } as const;
 
 type PM = keyof typeof PM_COMMANDS;
@@ -64,15 +64,15 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   );
 }
 
-const STEP_STYLE = `import "@k3/blocks/style.css";`;
+const STEP_STYLE = `import "@thejoven_com/k3blocks/style.css";`;
 
-const STEP_CREATE = `import { useK3Editor } from "@k3/blocks";
+const STEP_CREATE = `import { useK3Editor } from "@thejoven_com/k3blocks";
 
 const editor = useK3Editor({
   initialContent: myDoc, // 可选：Block[]
 });`;
 
-const STEP_RENDER = `import { K3EditorView } from "@k3/blocks";
+const STEP_RENDER = `import { K3EditorView } from "@thejoven_com/k3blocks";
 
 return <K3EditorView editor={editor} theme="dark" />;`;
 
@@ -144,7 +144,7 @@ export default function GettingStarted() {
       <P>选择你的包管理器：</P>
       <InstallTabs />
       <Callout className="mt-4">
-        需要 React ≥ 18。样式经 <InlineCode>@k3/blocks/style.css</InlineCode> 引入 ——
+        需要 React ≥ 18。样式经 <InlineCode>@thejoven_com/k3blocks/style.css</InlineCode> 引入 ——
         不引入样式编辑器也能工作，但会失去全部表面与菜单样式。
       </Callout>
 

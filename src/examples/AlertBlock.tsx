@@ -61,8 +61,8 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import type { Block } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import type { Block } from "@thejoven_com/k3blocks";
 
 // 自定义 alert 块渲染器：左 2px 色变条 + 图标 + 文本
 function renderAlert(block: Block) {

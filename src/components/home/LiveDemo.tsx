@@ -11,8 +11,8 @@ import CodeBlock from "@/components/CodeBlock";
 import { docStats, replaceDocument } from "@/lib/sampleDoc";
 import { cn } from "@/lib/utils";
 
-const QUICKSTART = `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css";
+const QUICKSTART = `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css";
 
 export default function App() {
   const editor = useK3Editor({ onChange: (e) => save(e.document) });
@@ -53,7 +53,7 @@ const SEED_DOCUMENT: Block[] = [
     id: "b3",
     type: "checkListItem",
     props: { checked: true },
-    content: [{ type: "text", text: "npm install @k3/blocks", styles: {} }],
+    content: [{ type: "text", text: "npm install @thejoven_com/k3blocks", styles: {} }],
     children: [],
   },
   {

@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, Copy } from "lucide-react";
 import { VERSION } from "@/lib/version";
 
-const INSTALL_CMD = "npm install @k3/blocks";
+const INSTALL_CMD = "npm install @thejoven_com/k3blocks";
 
 const container = {
   hidden: {},

@@ -21,7 +21,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";

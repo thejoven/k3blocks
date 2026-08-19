@@ -13,8 +13,8 @@ export const SOURCE = [
     name: "App.tsx",
     language: "tsx",
     code: `import { useEffect, useState } from "react";
-import { useK3Editor, K3EditorView } from "@k3/blocks";
-import type { K3Selection } from "@k3/blocks";
+import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import type { K3Selection } from "@thejoven_com/k3blocks";
 
 export default function App() {
   const editor = useK3Editor({ initialContent: doc });

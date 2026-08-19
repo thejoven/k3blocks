@@ -45,7 +45,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 const doc = [
   // pdf 块：props.url 为 PDF 地址；空串时显示占位输入框

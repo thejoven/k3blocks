@@ -14,7 +14,7 @@ export const SOURCE = [
     name: "App.tsx",
     language: "tsx",
     code: `import { useState } from "react";
-import { useK3Editor, K3EditorView, zhCN, enUS, mergeDictionary } from "@k3/blocks";
+import { useK3Editor, K3EditorView, zhCN, enUS, mergeDictionary } from "@thejoven_com/k3blocks";
 
 // 自定义：与 zhCN 深合并，只覆盖单条文案
 const custom = mergeDictionary(zhCN, {

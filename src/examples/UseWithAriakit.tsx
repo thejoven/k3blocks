@@ -14,7 +14,7 @@ export const SOURCE = [
     name: "App.tsx",
     language: "tsx",
     code: `import * as Ariakit from "@ariakit/react";
-import { useK3Editor, K3EditorView } from "@k3/blocks";
+import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 export default function App() {
   const editor = useK3Editor({ initialContent: doc });

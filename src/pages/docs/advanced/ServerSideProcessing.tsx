@@ -19,7 +19,7 @@ import {
 import { useK3Editor, K3EditorView, blocksToHTML, blocksToEmailHTML } from "@/k3blocks";
 import { richSeedDocument } from "../export/shared";
 
-const INSTALL_CODE = `npm install @k3/blocks`;
+const INSTALL_CODE = `npm install @thejoven_com/k3blocks`;
 
 const IMPORT_CODE = `// 转换器全部是 Block[] → string | Blob 的纯函数，不依赖 React 与编辑器实例
 import {
@@ -28,7 +28,7 @@ import {
   blocksToDocxBlob,
   blocksToOdtBlob,
   tryParseMarkdownToBlocks,
-} from "@k3/blocks";`;
+} from "@thejoven_com/k3blocks";`;
 
 const NODE_SCRIPT = `// scripts/render-docs.mjs —— Node 20+ 直接运行：node scripts/render-docs.mjs
 import { readFile, writeFile } from "node:fs/promises";
@@ -37,7 +37,7 @@ import {
   blocksToEmailHTML,
   blocksToDocxBlob,
   tryParseMarkdownToBlocks,
-} from "@k3/blocks";
+} from "@thejoven_com/k3blocks";
 
 // 1. JSON 即数据库格式：文档就是普通 JSON（库表 TEXT 列 / 文件均可）
 const doc = JSON.parse(await readFile("doc.json", "utf8"));

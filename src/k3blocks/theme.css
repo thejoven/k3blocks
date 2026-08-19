@@ -1,6 +1,6 @@
 /**
  * K3Blocks — 主题与设计令牌。
- * 变量名与宿主页面（design.md §2）一致：--bg/--surface-*/--border/--text-*/--accent…
+ * 变量名与宿主页面（design.md §2）一致：--bg、--surface-*、--border、--text-*、--accent…
  * 未设置 data-theme 时继承宿主页面；所有用法带暗色兜底值。
  */
 

@@ -1,8 +1,13 @@
-# K3Blocks — Notion 风格块编辑器 + 文档站
+# K3Blocks
 
-K3Blocks 是一个 Notion 风格的 React 块编辑器组件（对标 [BlockNote](https://github.com/TypeCellOS/BlockNote)），设计语言致敬 [cladd](https://cladd.io/)：dark-first 近黑表面、1px 发丝线、Geist + Geist Mono、单一蓝色 accent、"surfaces not shadows"。
+为 React 而生的 Notion 风格块编辑器。
 
-本仓库 = **可发布的编辑器组件包**（`src/k3blocks/`）+ **完整文档演示站**（首页 / Docs / Blocks / Examples / Playground）。
+K3Blocks 是一套可嵌入的 React 组件：斜杠菜单、选区格式化工具栏、拖拽排序、Markdown 快捷键、中英双语、明暗主题，以及可 JSON 序列化的文档模型。实现为纯 React + TypeScript，不依赖第三方富文本引擎。视觉上采用暗色优先的近黑表面、1px 发丝线、Geist / Geist Mono 与单一蓝色强调色。
+
+本仓库包含：
+
+- **编辑器组件包**（`src/k3blocks/`）— 可单独发布为 `@thejoven_com/k3blocks`
+- **文档演示站** — 首页、Docs、Blocks、Examples、Playground
 
 ## 本地运行
 
@@ -20,7 +25,7 @@ npm run preview    # 预览生产构建 → http://localhost:4173
 
 ```
 src/
-  k3blocks/        # ★ 编辑器组件包（可单独发布为 @k3/blocks）
+  k3blocks/        # ★ 编辑器组件包（可单独发布为 @thejoven_com/k3blocks）
     index.ts       # 公共导出：useK3Editor / K3EditorView / zhCN / enUS / 类型
     types.ts       # Block / InlineContent / K3Editor / K3Dictionary 等
     schema.ts      # 块规格注册表（含 columnList 分栏）
@@ -57,106 +62,62 @@ React 19 · TypeScript · Vite 7 · Tailwind CSS v3.4 · framer-motion · lucide
 
 ## 将组件发布到 npm
 
-`src/k3blocks/` 是一个自包含的组件包，可以脱离文档站单独发布为 `@k3/blocks`。
+包名 [`@thejoven_com/k3blocks`](https://www.npmjs.com/package/@thejoven_com/k3blocks)，组织 `thejoven_com`。文档站根包是 `private`，**不要**在仓库根目录执行 `npm publish`（会把整站打上去）。真正发布的是 `lib/` 里的组件库产物。
 
-### 1. 库化构建（vite lib mode）
+本机安装源可以继续用 npmmirror；发布必须走 `https://registry.npmjs.org/`（脚本已写死）。
 
-以 `src/k3blocks/index.ts` 为入口，新增 `vite.lib.config.ts`，用 `vite build --mode lib` 构建：
+### 一次性：写入官方源 token
 
-```ts
-// vite.lib.config.ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "node:path";
+1. 打开 [npm Access Tokens](https://www.npmjs.com/settings/~/tokens) → Generate New Token → **Granular Access Token**
+   - Organization：`thejoven_com`
+   - Permissions：Read and write
+   - 勾选 Automation / bypass 2FA（否则 publish 会要 OTP）
+2. 只把 token 绑到官方源，**不要改**默认 `registry`：
 
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    lib: {
-      entry: resolve(__dirname, "src/k3blocks/index.ts"),
-      name: "K3Blocks",
-      formats: ["es", "cjs"],
-      fileName: (format) => (format === "es" ? "index.js" : "index.cjs"),
-    },
-    // 样式单独产出 dist/style.css（对应 package.json exports 的 "./style.css"）
-    cssCodeSplit: false,
-    rollupOptions: {
-      // 宿主应用提供的依赖一律 external，不打进 bundle
-      external: ["react", "react-dom", "react/jsx-runtime", "katex", "mermaid"],
-      output: { globals: { react: "React", "react-dom": "ReactDOM" } },
-    },
-  },
-});
+```ini
+# ~/.npmrc
+//registry.npmjs.org/:_authToken=npm_你的token
 ```
-
-> `katex` / `mermaid` 标为 external（mermaid 在组件内本就是 dynamic import，可选标为 peer 或保持外置由用户按需安装）。
-> 备选方案：用 [tsup](https://tsup.egoist.dev) 一行搞定 —— `tsup src/k3blocks/index.ts --format esm,cjs --dts --external react,react-dom,katex,mermaid`。
-
-构建脚本：
-
-```json
-{ "scripts": { "build:lib": "vite build --mode lib --config vite.lib.config.ts" } }
-```
-
-### 2. package.json 发布配置
-
-发布前把包级 `package.json` 调整为（站点仓库可放在独立的发布目录，或发布时生成）：
-
-```json
-{
-  "name": "@k3/blocks",
-  "version": "1.4.0",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./style.css": "./dist/style.css"
-  },
-  "files": ["dist"],
-  "sideEffects": ["**/*.css"],
-  "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
-  },
-  "publishConfig": { "access": "public" },
-  "scripts": {
-    "prepublishOnly": "npm run build:lib"
-  }
-}
-```
-
-- `sideEffects: ["**/*.css"]` 保证主题 CSS 不被宿主 bundler tree-shake 掉。
-- 类型声明可用 `vite-plugin-dts` 或 tsup 的 `--dts` 生成到 `dist/index.d.ts`。
-
-### 3. 样式与字体
-
-主题变量在 `src/k3blocks/theme.css`，需随包单独导出，用户侧显式引入一次：
-
-```ts
-import "@k3/blocks/style.css";
-```
-
-组件不内置字体文件，默认继承宿主的 Geist / Geist Mono（或任意系统字体栈）；`theme` 省略时同样继承宿主页面的 CSS 变量。
-
-### 4. 发布流程
 
 ```bash
-npm login                          # 登录 npm 账号
-npm version patch                  # 递增版本并打 git tag（minor / major 同理）
-npm publish --access public        # scoped 包首次发布必须带 --access public
+npm whoami --registry=https://registry.npmjs.org/   # 应打印 jwenlee
 ```
 
-用户侧接入（5 行）：
+token 不要提交进仓库，不要贴到聊天里。本地项目 `.npmrc` 已被 gitignore。
+
+### 日常发版（一条命令）
+
+```bash
+npm run release:patch   # 1.5.0 → 1.5.1  bugfix
+npm run release:minor   # 1.5.0 → 1.6.0  新能力
+npm run release:major   # 1.5.0 → 2.0.0  breaking
+```
+
+脚本会：递增 `package.json` 版本 → 同步 `src/lib/version.ts` → `vite` 构建 `lib/` → `npm publish ./lib` 到官方源。
+
+版本已改、只想再发一次：
+
+```bash
+npm run publish:lib
+```
+
+确认：
+
+```bash
+npm view @thejoven_com/k3blocks version --registry=https://registry.npmjs.org/
+```
+
+预发布：`npm run build:lib && npm publish ./lib --tag beta --access public --registry=https://registry.npmjs.org/`。
+
+### 用户侧接入
+
+```bash
+npm i @thejoven_com/k3blocks
+```
 
 ```tsx
-import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css";
+import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css";
 
 export default function App() {
   const editor = useK3Editor();
@@ -164,15 +125,7 @@ export default function App() {
 }
 ```
 
-```bash
-npm i @k3/blocks
-```
-
-### 5. 版本管理与 CHANGELOG
-
-- 遵循 [SemVer](https://semver.org/lang/zh-CN/)：bugfix → `patch`，新能力 → `minor`，breaking API（如 `useK3Editor` 选项重命名）→ `major`。
-- 维护根目录 `CHANGELOG.md`（建议 [Keep a Changelog](https://keepachangelog.com/) 格式），每次发布记录 Added / Changed / Fixed。
-- 预发布用 dist-tag，不污染 latest：`npm publish --tag beta`（版本号如 `1.5.0-beta.0`，用 `npm version prerelease --preid=beta` 生成）；用户侧 `npm i @k3/blocks@beta` 试用，稳定后 `npm dist-tag add @k3/blocks@1.5.0 latest`。
+组件不内置字体文件，默认继承宿主的 Geist / Geist Mono（或任意系统字体栈）；`theme` 省略时同样继承宿主页面的 CSS 变量。
 
 ## License
 

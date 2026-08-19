@@ -27,7 +27,7 @@ import type { Block } from "@/k3blocks";
 
 /* ------------------------------ useK3Editor ------------------------------ */
 
-const HOOK_SNIPPET = `import { useK3Editor, K3EditorView } from "@k3/blocks";
+const HOOK_SNIPPET = `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 const editor = useK3Editor({
   initialContent: [
@@ -477,7 +477,7 @@ editor.setTextCursor(b.id, 0);`,
       </Callout>
 
       <H2 id="types">类型。</H2>
-      <P>公共类型全部从 <InlineCode>@k3/blocks</InlineCode> 导出：</P>
+      <P>公共类型全部从 <InlineCode>@thejoven_com/k3blocks</InlineCode> 导出：</P>
       <CodeBlock className="mt-4" code={TYPES_CODE} language="ts" />
 
       <H2 id="examples">相关示例。</H2>

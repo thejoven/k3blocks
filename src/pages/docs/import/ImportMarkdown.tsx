@@ -9,7 +9,7 @@ import { CardStrip, DocTable, H2, InlineCode, MonoCell, P } from "@/components/d
 import { tryParseMarkdownToBlocks } from "@/k3blocks";
 import ImportDemo from "./shared";
 
-const API_CODE = `import { tryParseMarkdownToBlocks } from "@k3/blocks";
+const API_CODE = `import { tryParseMarkdownToBlocks } from "@thejoven_com/k3blocks";
 
 // 纯函数：Markdown 字符串 → Block[]（行级解析，空行分块）
 const blocks = tryParseMarkdownToBlocks(md);

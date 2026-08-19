@@ -18,7 +18,7 @@ import {
 import { txt } from "@/components/docs/utils";
 import type { Block } from "@/k3blocks";
 
-const QUICKSTART = `import { useK3Editor, K3EditorView } from "@k3/blocks";
+const QUICKSTART = `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 export default function App() {
   const editor = useK3Editor({

@@ -52,7 +52,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 const doc = [
   // diagram 块：props.code 为 Mermaid 源码；mermaid 动态 import，不进首屏 bundle

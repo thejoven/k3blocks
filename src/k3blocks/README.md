@@ -4,24 +4,24 @@ Notion 风格的 React 块编辑器组件，设计语言遵从 cladd.io：dark-f
 
 ## 作为 npm 包使用
 
-本目录可单独发布为 `@k3/blocks`。用户侧：
+本目录可单独发布为 `@thejoven_com/k3blocks`。用户侧：
 
 ```bash
-npm i @k3/blocks
+npm i @thejoven_com/k3blocks
 ```
 
 ```tsx
-import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css"; // 主题 CSS 变量单独导出，需显式引入一次
+import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css"; // 主题 CSS 变量单独导出，需显式引入一次
 ```
 
 - 包为 `type: module`，同时提供 es / cjs 双格式与 `exports` map（含 `./style.css`）；`react` / `react-dom` 为 peerDependencies（>=18）。
-- 构建与发布的完整流程（vite lib mode 配置、package.json 发布字段、CHANGELOG 与 beta tag）见根 README 的「将组件发布到 npm」一章。
+- 构建与发布（token + `npm run release:patch`）见根 README 的「将组件发布到 npm」。
 
 ## 安装
 
 ```bash
-npm install @k3/blocks
+npm install @thejoven_com/k3blocks
 ```
 
 组件为纯 React + TypeScript 实现，无 tiptap 等编辑器依赖。图标依赖 `lucide-react`；公式与图表块依赖 `katex` 与 `mermaid`（mermaid 按需动态加载，不进首屏 bundle）。
@@ -29,7 +29,7 @@ npm install @k3/blocks
 ## 快速上手
 
 ```tsx
-import { useK3Editor, K3EditorView } from "@k3/blocks";
+import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 export default function App() {
   const editor = useK3Editor({
@@ -124,7 +124,7 @@ JSON 即无损存储格式。
 组件内所有用户可见文案由 `K3Dictionary` 描述，内置 `zhCN`（默认）与 `enUS`：
 
 ```ts
-import { zhCN, enUS } from "@k3/blocks";
+import { zhCN, enUS } from "@thejoven_com/k3blocks";
 
 const editor = useK3Editor({ dictionary: enUS });
 // 或局部覆盖（与 zhCN 深合并）：
@@ -363,7 +363,7 @@ useK3Editor({
 | `downloadBlob(blob: Blob, filename: string): void` | — | 触发浏览器下载（`URL.createObjectURL` + `<a download>`） |
 
 ```ts
-import { blocksToHTML, blocksToDocxBlob, downloadBlob } from "@k3/blocks";
+import { blocksToHTML, blocksToDocxBlob, downloadBlob } from "@thejoven_com/k3blocks";
 const html = editor.blocksToHTML();
 downloadBlob(await editor.blocksToDocxBlob(), "doc.docx");
 editor.print({ title: "周报" });

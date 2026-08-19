@@ -166,7 +166,7 @@ function TagDemo() {
 
 /* -------------------------------- 教程代码 -------------------------------- */
 
-const STEP_MODEL = `import type { InlineContent, K3CustomInlineContent } from "@k3/blocks";
+const STEP_MODEL = `import type { InlineContent, K3CustomInlineContent } from "@thejoven_com/k3blocks";
 
 // 1. 定义行内节点：type 是任意非 text/link/mention 的字符串，数据放 props。
 //    自定义节点不进 InlineContent 联合（保持判别联合收窄向后兼容），

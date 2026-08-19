@@ -12,7 +12,7 @@ const API_CODE = `// 打开新窗口渲染 blocksToHTML + 内联打印样式，�
 editor.print({ title: "产品周报" });
 
 // 纯函数形态（任意 Block[]）
-import { printBlocks } from "@k3/blocks";
+import { printBlocks } from "@thejoven_com/k3blocks";
 printBlocks(blocks, { title: "产品周报" });`;
 
 export default function ExportPdf() {

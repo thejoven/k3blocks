@@ -468,7 +468,7 @@ export const EXAMPLES: ExampleMeta[] = [
     steps: [
       {
         text: "内置 `zhCN`（默认）与 `enUS` 两套字典，涵盖 placeholder、斜杠菜单、侧边菜单、格式化工具栏全部文案。",
-        code: `import { zhCN, enUS } from "@k3/blocks";`,
+        code: `import { zhCN, enUS } from "@thejoven_com/k3blocks";`,
       },
       {
         text: "`<K3EditorView dictionary>` 优先级最高且随渲染即时生效——分段开关切换无需重建编辑器。",

@@ -36,7 +36,7 @@ const TOGGLE_SNIPPET = `// emoji 网格菜单默认开启；如需关闭：
 const editor = useK3Editor({ emojiPicker: false });`;
 
 const EMOJI_ITEM_SHAPE = `// EMOJI_LIST 从包入口导出，可用于自建面板
-import { EMOJI_LIST } from "@k3/blocks";
+import { EMOJI_LIST } from "@thejoven_com/k3blocks";
 
 interface K3EmojiItem {
   emoji: string;    // "😂"

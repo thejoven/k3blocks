@@ -187,7 +187,7 @@ export default function StylingThemes() {
 
       <H2 id="sharing">与宿主的变量共享。</H2>
       <P>
-        组件样式表（<InlineCode>@k3/blocks/style.css</InlineCode>）里变量只声明在{" "}
+        组件样式表（<InlineCode>@thejoven_com/k3blocks/style.css</InlineCode>）里变量只声明在{" "}
         <InlineCode>.k3-editor[data-theme="…"]</InlineCode>{" "}
         两个选择器上；不传 theme 时组件本身一个变量都不定义，全部取值沿继承链来自宿主。
         这意味着：

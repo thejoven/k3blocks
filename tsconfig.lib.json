@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "types": []
+  },
+  "include": ["src/k3blocks"],
+  "exclude": ["src/k3blocks/__dev__"]
+}

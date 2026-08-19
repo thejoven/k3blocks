@@ -10,7 +10,7 @@ import { CardStrip, DocTable, H2, InlineCode, MonoCell, P } from "@/components/d
 import { downloadBlob } from "@/k3blocks";
 import ExportDemo, { ActionButton, FeedbackChip, useFeedback } from "./shared";
 
-const API_CODE = `import { blocksToOdtBlob, downloadBlob } from "@k3/blocks";
+const API_CODE = `import { blocksToOdtBlob, downloadBlob } from "@thejoven_com/k3blocks";
 
 // jszip 按需动态 import——不进主 chunk
 const blob = await editor.blocksToOdtBlob();

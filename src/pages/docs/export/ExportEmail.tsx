@@ -9,7 +9,7 @@ import DocsShell from "@/components/docs/DocsShell";
 import { CardStrip, DocTable, H2, InlineCode, MonoCell, P } from "@/components/docs/primitives";
 import ExportDemo, { ActionButton, FeedbackChip, useFeedback } from "./shared";
 
-const API_CODE = `import { blocksToEmailHTML } from "@k3/blocks";
+const API_CODE = `import { blocksToEmailHTML } from "@thejoven_com/k3blocks";
 
 // email-safe：全 table 布局 + 全 inline style（无 class、无 grid）
 const html = editor.blocksToEmailHTML();

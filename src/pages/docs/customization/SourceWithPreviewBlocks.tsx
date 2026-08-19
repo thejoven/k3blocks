@@ -86,7 +86,7 @@ const SEED: Block[] = [
 
 /* -------------------------------- 教程代码 -------------------------------- */
 
-const STEP_RENDERER = `import type { Block, K3Editor } from "@k3/blocks";
+const STEP_RENDERER = `import type { Block, K3Editor } from "@thejoven_com/k3blocks";
 
 // 1. 渲染器：左 textarea 编辑源码，右 iframe srcDoc 预览
 function renderHtmlPreview(block: Block, editor: K3Editor) {

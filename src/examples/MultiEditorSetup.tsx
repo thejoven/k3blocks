@@ -10,7 +10,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 // 每个编辑器 = 一次独立的 useK3Editor 调用：
 // 文档模型、undo/redo 栈、选区互不共享

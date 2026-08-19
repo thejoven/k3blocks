@@ -90,8 +90,8 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import type { Block, K3Editor } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import type { Block, K3Editor } from "@thejoven_com/k3blocks";
 
 // 完整 UX 的 alert 渲染器：segmented 切换 + 图标 + 可编辑文本
 function renderAlert(block: Block, editor: K3Editor) {

@@ -61,7 +61,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 const editor = useK3Editor({
   initialContent: doc, // 种子段落里已含 { type: "mention", props: { id, label } }

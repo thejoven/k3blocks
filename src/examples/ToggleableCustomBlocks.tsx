@@ -79,8 +79,8 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import type { Block, K3Editor } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import type { Block, K3Editor } from "@thejoven_com/k3blocks";
 import { ChevronRight } from "lucide-react";
 
 // toggle 渲染器：chevron 展开 / 收起，状态写回 props.expanded

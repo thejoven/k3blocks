@@ -65,7 +65,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 // 颜色写在 InlineStyles 上：textColor（hex）/ backgroundColor（hex8）
 const doc = [

@@ -192,7 +192,7 @@ function TradeOffs() {
 
 /* --------------------------------- S7. CTA -------------------------------- */
 
-const INSTALL_CMD = "npm install @k3/blocks";
+const INSTALL_CMD = "npm install @thejoven_com/k3blocks";
 
 function Cta() {
   const [copied, setCopied] = useState(false);

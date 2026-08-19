@@ -9,7 +9,7 @@ import { CardStrip, DocTable, H2, InlineCode, MonoCell, P } from "@/components/d
 import { tryParseHTMLToBlocks } from "@/k3blocks";
 import ImportDemo from "./shared";
 
-const API_CODE = `import { tryParseHTMLToBlocks } from "@k3/blocks";
+const API_CODE = `import { tryParseHTMLToBlocks } from "@thejoven_com/k3blocks";
 
 // 纯函数：HTML 字符串 → Block[]（DOMParser 解析，不执行任何脚本）
 const blocks = tryParseHTMLToBlocks(html);

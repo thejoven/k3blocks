@@ -44,7 +44,7 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
 
 const doc = [
   // math 块：props.latex 为 KaTeX 展示模式（displayMode）源码

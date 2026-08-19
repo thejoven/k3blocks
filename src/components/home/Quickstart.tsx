@@ -12,8 +12,8 @@ const TABS: { id: TabId; label: string; code: string }[] = [
   {
     id: "quickstart",
     label: "Quickstart",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css";
 
 export default function App() {
   const editor = useK3Editor();

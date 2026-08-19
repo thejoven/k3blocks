@@ -361,7 +361,7 @@ function SettingsPanel({
       <ShortcutsCard />
 
       <div className="px-4 py-3 font-mono text-[12px] leading-relaxed text-text-4">
-        <div>@k3/blocks v{VERSION}</div>
+        <div>@thejoven_com/k3blocks v{VERSION}</div>
         <div>blocks: {blockCount}</div>
       </div>
     </div>

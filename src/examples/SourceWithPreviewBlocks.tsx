@@ -77,8 +77,8 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import type { Block, K3Editor } from "@k3/blocks";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import type { Block, K3Editor } from "@thejoven_com/k3blocks";
 
 // "源码 + 预览"自定义块：textarea 编辑 props.code，iframe srcDoc 实时预览
 function renderHtmlPreview(block: Block, editor: K3Editor) {

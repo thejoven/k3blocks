@@ -8,8 +8,8 @@ import { useK3Editor, K3EditorView } from "@/k3blocks";
 import type { Block } from "@/k3blocks";
 import { PanelLabel } from "./shared";
 
-const SEED_CODE = `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css";
+const SEED_CODE = `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css";
 
 export default function App() {
   // 五行代码，接入编辑器
@@ -54,8 +54,8 @@ export const SOURCE = [
   {
     name: "App.tsx",
     language: "tsx",
-    code: `import { useK3Editor, K3EditorView } from "@k3/blocks";
-import "@k3/blocks/style.css";
+    code: `import { useK3Editor, K3EditorView } from "@thejoven_com/k3blocks";
+import "@thejoven_com/k3blocks/style.css";
 import "./styles.css";
 
 const doc = [

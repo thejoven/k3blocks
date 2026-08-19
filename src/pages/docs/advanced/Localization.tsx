@@ -103,7 +103,7 @@ function DictDemo() {
 
 /* ---------------------------------- 页面 ---------------------------------- */
 
-const USAGE_CODE = `import { useK3Editor, K3EditorView, zhCN, enUS, mergeDictionary } from "@k3/blocks";
+const USAGE_CODE = `import { useK3Editor, K3EditorView, zhCN, enUS, mergeDictionary } from "@thejoven_com/k3blocks";
 
 // 自定义：与 zhCN 深合并，只覆盖要改的叶子，其余键沿用默认
 const custom = mergeDictionary(zhCN, {

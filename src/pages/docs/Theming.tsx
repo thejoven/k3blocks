@@ -145,7 +145,7 @@ const VAR_ROWS: { token: string; dark: string; light: string; usage: string }[] 
   { token: "--hover-overlay", dark: "rgba(255,255,255,0.05)", light: "rgba(0,0,0,0.04)", usage: "通用 hover 叠加" },
 ];
 
-const OVERRIDE_CSS = `/* 你的样式表里，after @k3/blocks/style.css */
+const OVERRIDE_CSS = `/* 你的样式表里，after @thejoven_com/k3blocks/style.css */
 .k3-editor.my-theme {
   --bg: #0d1117;
   --surface-1: #11161d;
@@ -195,7 +195,7 @@ export default function Theming() {
 
       <H2 id="override">覆盖主题。</H2>
       <P>
-        在 <InlineCode>@k3/blocks/style.css</InlineCode> 之后声明你的覆盖。用{" "}
+        在 <InlineCode>@thejoven_com/k3blocks/style.css</InlineCode> 之后声明你的覆盖。用{" "}
         <InlineCode>className</InlineCode> 把作用域类挂到编辑器根元素上：
       </P>
       <CodeBlock className="mt-4" code={OVERRIDE_CSS} language="css" />

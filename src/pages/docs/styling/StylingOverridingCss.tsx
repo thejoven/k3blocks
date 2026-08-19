@@ -20,7 +20,7 @@ import { txt } from "@/components/docs/utils";
 import { useK3Editor, K3EditorView } from "@/k3blocks";
 import type { Block } from "@/k3blocks";
 
-const OVERRIDE_CSS = `/* 你的全局样式表 —— 必须在 @k3/blocks/style.css 之后加载 */
+const OVERRIDE_CSS = `/* 你的全局样式表 —— 必须在 @thejoven_com/k3blocks/style.css 之后加载 */
 .k3-editor.my-brand {
   --accent: #ff5c39;
   --accent-hover: #ff7a5c;
@@ -151,7 +151,7 @@ export default function StylingOverridingCss() {
     >
       <H2 id="variables">变量覆盖。</H2>
       <P>
-        覆盖声明必须落在 <InlineCode>@k3/blocks/style.css</InlineCode>{" "}
+        覆盖声明必须落在 <InlineCode>@thejoven_com/k3blocks/style.css</InlineCode>{" "}
         <strong>之后</strong>加载的样式表里，作用域选择器用{" "}
         <InlineCode>.k3-editor</InlineCode> 加上你自己的类（经{" "}
         <InlineCode>className</InlineCode> 挂到根元素），或任意祖先元素：
