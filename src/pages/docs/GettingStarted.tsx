@@ -188,7 +188,7 @@ export default function GettingStarted() {
       <CardStrip
         cards={[
           { to: "/docs/foundations/document-structure", title: "Document structure", description: "Block[] 文档模型：id、type、props、content、children。" },
-          { to: "/blocks", title: "Block types", description: "九种内置块，逐块讲解与可运行 demo。" },
+          { to: "/blocks", title: "Block types", description: "基础块与媒体块，逐块讲解与可运行 demo。" },
           { to: "/examples", title: "Examples", description: "受控、只读、JSON 往返等完整可运行示例。" },
         ]}
       />

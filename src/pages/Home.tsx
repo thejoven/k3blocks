@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import {
+  Braces,
   Check,
   Code2,
   Copy,
+  Globe,
   GripVertical,
   Hash,
   Heading,
@@ -14,11 +16,13 @@ import {
   Minus,
   Palette,
   Quote,
+  Sigma,
   SquareSlash,
+  Table,
   TextCursorInput,
   Type,
+  Workflow,
   X,
-  Braces,
 } from "lucide-react";
 import Hero from "@/components/home/Hero";
 import LiveDemo from "@/components/home/LiveDemo";
@@ -38,7 +42,7 @@ const FEATURES = [
   {
     icon: TextCursorInput,
     title: "格式化工具栏",
-    description: "选区即现：粗体、斜体、下划线、删除线、行内代码、链接。",
+    description: "选区即现：粗体、斜体、下划线、删除线、行内代码、链接、文字色与高亮。",
     spec: "B I U S </> 🔗",
   },
   {
@@ -106,6 +110,10 @@ const BLOCK_TILES = [
   { icon: Code2, name: "Code", slash: "/code", to: "/blocks/code-block" },
   { icon: Minus, name: "Divider", slash: "/divider", to: "/blocks/divider" },
   { icon: Image, name: "Image", slash: "/image", to: "/blocks/image" },
+  { icon: Table, name: "Table", slash: "/table", to: "/docs/features/tables" },
+  { icon: Sigma, name: "Math", slash: "/math", to: "/docs/features/math" },
+  { icon: Globe, name: "Embed", slash: "/embed", to: "/docs/features/embeds" },
+  { icon: Workflow, name: "Diagram", slash: "/diagram", to: "/docs/features/diagrams" },
 ];
 
 function BlockTiles() {
@@ -113,9 +121,11 @@ function BlockTiles() {
     <section className="mx-auto max-w-shell px-6">
       <SectionLabel>块</SectionLabel>
       <h2 className="mt-3 text-2xl font-semibold tracking-[-0.015em] text-text-1">
-        九种块类型，开箱即用。
+        写作块与媒体块，开箱即用。
       </h2>
-      <p className="mt-2 text-sm text-text-2">点击任意块，查看文档与可运行示例。</p>
+      <p className="mt-2 text-sm text-text-2">
+        九种基础块，加上表格、公式、嵌入与图表。点击任意块，查看文档与可运行示例。
+      </p>
 
       <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 md:grid-cols-3">
         {BLOCK_TILES.map((t) => (
@@ -140,11 +150,11 @@ const FITS = [
   "需要 Notion 式编辑体验的 React 应用",
   "想要 JSON 文档模型、自控存储",
   "重视暗色主题与设计一致性",
-  "希望零重依赖（不自依赖 tiptap/ProseMirror）",
+  "希望零重依赖（不绑定 tiptap / ProseMirror）",
 ];
 
 const NOT_FITS = [
-  "需要表格、看板等高级块（路线图中）",
+  "需要看板、数据库视图等高级块（路线图中）",
   "协同编辑（尚未支持 Yjs）",
   "富文本仅需简单输入框",
   "非 React 技术栈",

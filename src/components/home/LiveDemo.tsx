@@ -285,7 +285,7 @@ export default function LiveDemo() {
         在这里，直接试。
       </h2>
       <p className="mt-2 text-sm text-text-2">
-        这不是截图。下面是一个完整运行的 K3Blocks 编辑器。
+        这不是截图。下面是一个完整运行的 K3Blocks 编辑器，工具条可插入表格、公式与图表。
       </p>
 
       <div className="mt-8 overflow-hidden rounded-xl border border-border bg-surface-1">

@@ -78,7 +78,7 @@ export default function Hero() {
       {/* 3. Sub */}
       <motion.p variants={variants.item} className="mt-5 max-w-xl text-base text-text-2">
         K3Blocks 是一个 Notion 风格的块编辑器组件。斜杠菜单、选区工具栏、拖拽排序、Markdown
-        快捷输入 —— 五行代码，接入你的 React 应用。
+        快捷输入，表格、公式与图表 —— 五行代码，接入你的 React 应用。
       </motion.p>
 
       {/* 4. Buttons */}

@@ -89,13 +89,13 @@ export default function DocsIntroduction() {
         columns={["能力", "状态", "说明"]}
         rows={[
           ["斜杠菜单", <StatusChip key="s" status="stable" />, "模糊搜索、分组、全键盘操作"],
-          ["格式化工具栏", <StatusChip key="s" status="stable" />, "选区即现：粗体 / 斜体 / 下划线 / 删除线 / 行内代码 / 链接"],
+          ["格式化工具栏", <StatusChip key="s" status="stable" />, "选区即现：粗体 / 斜体 / 下划线 / 删除线 / 行内代码 / 链接 / 颜色"],
           ["拖拽排序", <StatusChip key="s" status="stable" />, "悬停块左侧手柄，HTML5 拖拽"],
           ["Markdown 输入规则", <StatusChip key="s" status="stable" />, "行首 #、-、1.、[]、>、```、--- 即刻转换"],
           ["撤销 / 重做", <StatusChip key="s" status="stable" />, "自维护操作栈，⌘Z / ⌘⇧Z"],
           ["主题", <StatusChip key="s" status="stable" />, "light / dark，CSS 变量驱动，可继承宿主"],
+          ["媒体块", <StatusChip key="s" status="stable" />, "表格 / 公式 / 嵌入 / 图表 / PDF / 分栏"],
           ["协同编辑", <StatusChip key="s" status="roadmap" />, "文档模型已按 CRDT 友好的形状设计"],
-          ["表格块", <StatusChip key="s" status="roadmap" />, "规划中"],
         ]}
       />
 
@@ -103,7 +103,7 @@ export default function DocsIntroduction() {
       <CardStrip
         cards={[
           { to: "/docs/getting-started", title: "Quickstart", description: "五行代码接入你的 React 应用。" },
-          { to: "/blocks", title: "Block types", description: "九种内置块，每页配可运行 demo。" },
+          { to: "/blocks", title: "Block types", description: "基础块与媒体块，每页配可运行 demo。" },
           { to: "/docs/api", title: "API Reference", description: "useK3Editor、K3EditorView 与全部实例方法。" },
           { to: "/examples", title: "Examples", description: "受控、只读、JSON 往返、暗色主题等完整示例。" },
         ]}
